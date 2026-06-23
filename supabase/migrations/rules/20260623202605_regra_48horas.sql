@@ -1,18 +1,18 @@
-CREATE OR REPLACE FUNCTION public.aplica_taxa_48horas()
+CREATE OR REPLACE FUNCTION public.aplica_taxa_urgencia_vaga()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Verifica se a diferença entre o início do trabalho e o momento da criação é menor que 48 horas
-    IF (NEW.data_inicio_trabalho - NOW()) < INTERVAL '48 hours' THEN
-        -- Aplica o aumento de 20% no valor da diária
-        NEW.valor_diaria := NEW.valor_diaria * 1.20;
+    -- Se a data da diária menos o momento atual for menor que 48 horas, aplica a taxa
+    IF (NEW.data_diaria - NOW()) < INTERVAL '48 hours' THEN
+        -- Aumenta o valor do pagamento em 20%
+        NEW.valor_pagamento := NEW.valor_pagamento * 1.20;
     END IF;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- O Gatilho correspondente
+-- Gatilho disparado ANTES de salvar a vaga no banco
 CREATE OR REPLACE TRIGGER trigger_urgencia_vaga
     BEFORE INSERT ON public.vagas
     FOR EACH ROW
-    EXECUTE FUNCTION public.aplica_taxa_48horas();
+    EXECUTE FUNCTION public.aplica_taxa_urgencia_vaga();

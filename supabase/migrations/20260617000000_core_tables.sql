@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
     full_name TEXT NOT NULL,
-    cpf CONSTRAINT cpf_length CHECK (char_length(cpf) = 11),
+    cpf TEXT CONSTRAINT cpf_length CHECK (char_length(cpf) = 11),
     phone TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 CREATE TABLE IF NOT EXISTS public.estabelecimentos (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     razao_social TEXT NOT NULL,
-    cnpj CONSTRAINT cnpj_length CHECK (char_length(cnpj) = 14),
+    cnpj TEXT CONSTRAINT cnpj_length CHECK (char_length(cnpj) = 14),
     endereco TEXT NOT NULL,
     dono_id UUID REFERENCES auth.users ON DELETE SET NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
