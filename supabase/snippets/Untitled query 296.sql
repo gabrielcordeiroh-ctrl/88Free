@@ -1,0 +1,3 @@
+INSERT INTO auth.users (id, email)
+VALUES ('99999999-9999-9999-9999-999999999999', 'teste@88free.com.br')
+ON CONFLICT (id) DO NOTHING;
