@@ -1,0 +1,1 @@
+SELECT * FROM public.transacoes_financeiras;
